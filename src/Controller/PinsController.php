@@ -9,12 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class PinsController extends AbstractController
 {
     /**
-     * @Route("/pins", name="pins")
+     * @Route("", name="app_home")
      */
     public function index(): Response
     {
-        return $this->render('pins/index.html.twig', [
-            'controller_name' => 'PinsController',
-        ]);
+        return $this->render('pins/index.html.twig');
     }
 }
