@@ -6,24 +6,8 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet"/>
         {% endblock %}
-            <style>
-                .alert {
-                    padding: 10px;
-                    color: white;
-                    text-align:center;
-                }
-                .alert-success {
-                    background-color: green;
-                }
-                .alert-warning {
-                    background-color: red;
-                }
-                .alert-info {
-                    background-color: blue;
-                }
-            </style>
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}

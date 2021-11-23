@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {{ include('pins/_flash.html.twig') }}
+    {{ include('_partials/_flash.html.twig') }}
 
     <h1>Toutes les images</h1>
     <h2>(Il y a {{ singularToPlural(allPins|length, 'pin') }})</h2>
