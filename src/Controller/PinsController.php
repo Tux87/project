@@ -14,13 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PinsController extends AbstractController
 {
-
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
     /**
      * @Route("/", name="app_home", methods={"GET"})
      */
@@ -34,7 +27,7 @@ class PinsController extends AbstractController
     /**
      * @Route("/pin/creer", name="app_pin_create", methods={"GET", "POST"})
      */
-    public function create(Request $request): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         //Create a new pin
         $pin = new Pin;
@@ -69,7 +62,7 @@ class PinsController extends AbstractController
     /**
      * @Route("/pin/editer/{id<[0-9]+>}", name="app_pin_update", methods={"GET", "PUT"})
      */
-    public function update(Pin $pin, Request $request): Response
+    public function update(Pin $pin, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(PinType::class, $pin, [
             //Changes default method from POST to PUT
@@ -87,5 +80,15 @@ class PinsController extends AbstractController
            'pin' => $pin,
            'form' => $form->createView(),
        ]);
+    }
+
+    /**
+     * @Route("/pin/effacer/{id<[0-9]+>}", name="app_pin_delete", methods={"POST"})
+     */
+    public function delete(Pin $pin, EntityManagerInterface $em): Response
+    {
+       $em->remove($pin);
+       $em->flush();
+       return $this->redirectToRoute('app_home');
     }
 }
