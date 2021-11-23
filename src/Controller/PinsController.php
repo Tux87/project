@@ -3,14 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
+use App\Form\PinType;
 use DateTimeImmutable;
 use App\Repository\PinRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PinsController extends AbstractController
@@ -39,11 +38,8 @@ class PinsController extends AbstractController
     {
         //Create a new pin
         $pin = new Pin;
-        $form = $this->createFormBuilder($pin)
-                        ->add('title', TextType::class)
-                        ->add('description', TextareaType::class)
-                        ->getForm()
-        ;
+        //Calls PinType form
+        $form = $this->createForm(PinType::class, $pin);
     
         $form->handleRequest($request);
         //If the form is submitted and is valid then:
@@ -71,18 +67,17 @@ class PinsController extends AbstractController
     }
 
     /**
-     * @Route("/pin/editer/{id<[0-9]+>}", name="app_pin_edit", methods={"GET", "POST"})
+     * @Route("/pin/editer/{id<[0-9]+>}", name="app_pin_update", methods={"GET", "PUT"})
      */
-    public function edit(Pin $pin, Request $request): Response
+    public function update(Pin $pin, Request $request): Response
     {
-        $form = $this->createFormBuilder($pin)
-                    ->add('title', TextType::class)
-                    ->add('description', TextareaType::class)
-                    ->getForm()
-        ;
+        $form = $this->createForm(PinType::class, $pin, [
+            //Changes default method from POST to PUT
+            'method' => 'PUT',
+        ]);
 
         $form->handleRequest($request); 
-
+        
         if ($form->isSubmitted() && $form->isValid()){  
             $pin->setUpdatedAt(new DateTimeImmutable);
             $em->flush();
