@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
+use DateTimeImmutable;
 use App\Repository\PinRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PinsController extends AbstractController
 {
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
     /**
      * @Route("/", name="app_home", methods={"GET"})
      */
@@ -27,28 +35,25 @@ class PinsController extends AbstractController
     /**
      * @Route("/pin/creer", name="app_pin_create", methods={"GET", "POST"})
      */
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request): Response
     {
-       $form = $this->createFormBuilder(new Pin)
-                    ->add('title', TextType::class)
-                    ->add('description', TextareaType::class)
-                    ->getForm()
+        //Create a new pin
+        $pin = new Pin;
+        $form = $this->createFormBuilder($pin)
+                        ->add('title', TextType::class)
+                        ->add('description', TextareaType::class)
+                        ->getForm()
         ;
     
         $form->handleRequest($request);
         //If the form is submitted and is valid then:
-        if ($form->isSubmitted() && $form->isValid()){
-            //Add submitted data to $data
-            $data = $form->getData();
-            //Create a new pin
-            $pin = new Pin();
-            //Add title and description
-            $pin->setTitle($data['title']);
-            $pin->setDescription($data['description']);
+        if ($form->isSubmitted() && $form->isValid()){           
+            //Add createdAt            
+            $pin->setCreatedAt(new DateTimeImmutable);
             //Add to DB
             $em->persist($pin);
             $em->flush();
-
+            //Redirect to homepage
             return $this->redirectToRoute('app_home');
         }
 
@@ -58,10 +63,34 @@ class PinsController extends AbstractController
     }
 
     /**
-     * @Route("/pin/{id<[0-9]+>}", name="app_pin_show", methods="GET")
+     * @Route("/pin/{id<[0-9]+>}", name="app_pin_read", methods={"GET"})
      */
-    public function show(Pin $pin): Response
+    public function read(Pin $pin): Response
     {
-       return $this->render('pins/show.html.twig', compact('pin'));
+       return $this->render('pins/read.html.twig', compact('pin'));
+    }
+
+    /**
+     * @Route("/pin/editer/{id<[0-9]+>}", name="app_pin_edit", methods={"GET", "POST"})
+     */
+    public function edit(Pin $pin, Request $request): Response
+    {
+        $form = $this->createFormBuilder($pin)
+                    ->add('title', TextType::class)
+                    ->add('description', TextareaType::class)
+                    ->getForm()
+        ;
+
+        $form->handleRequest($request); 
+
+        if ($form->isSubmitted() && $form->isValid()){  
+            $pin->setUpdatedAt(new DateTimeImmutable);
+            $em->flush();
+            return $this->redirectToRoute('app_home');
+        }
+       return $this->render('pins/edit.html.twig', [
+           'pin' => $pin,
+           'form' => $form->createView(),
+       ]);
     }
 }
