@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PinRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=PinRepository::class)
  * @ORM\Table(name="pins")
@@ -23,11 +24,13 @@ class Pin
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
