@@ -11,7 +11,8 @@
     {% for pin in allPins %}
         <article>
             <h3><a href="{{ path('app_pin_read', {id: pin.id }) }}">{{ pin.title }}</a></h2>
-            <p>{{ pin.description }}</p>
+            <p>{{ pin.description|u.truncate(20, '...', false) }}</p>
+            <p>Soumis {{ pin.createdAt|ago(locale='fr') }}</p>
         </article>        
     {% endfor %}
 
