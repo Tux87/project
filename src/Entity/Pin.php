@@ -25,12 +25,14 @@ class Pin
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Merci de renseigner un titre")
+     * @Assert\Length(min=3)
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Merci de renseigner une description")
+     * @Assert\Length(min=15)
      */
     private $description;
 
