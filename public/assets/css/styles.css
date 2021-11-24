@@ -1,10 +1,13 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
 .alert {
     padding: 10px;
     color: white;
     text-align:center;
     margin: 0;
     border: none;
-    border-radius: 25px;
+    border-radius: px;
 }
 .alert-success {
     background-color: green;
