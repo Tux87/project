@@ -1,0 +1,23 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
+a { 
+    text-decoration: none; 
+}
+.alert {
+    padding: 10px;
+    color: white;
+    text-align:center;
+    margin: 0;
+    border: none;
+    border-radius: px;
+}
+.alert-success {
+    background-color: green;
+}
+.alert-warning {
+    background-color: red;
+}
+.alert-info {
+    background-color: blue;
+}

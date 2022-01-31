@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}    
+
+    <h1>Toutes les images</h1>
+    <h2>(Il y a {{ singularToPlural(allPins|length, 'pin') }})</h2>
+    
+    
+    {% for pin in allPins %}
+        <article>
+            <h3><a href="{{ path('app_pin_read', {id: pin.id }) }}">{{ pin.title }}</a></h2>
+            <p>{{ pin.description|u.truncate(20, '...', false) }}</p>
+
+            {% if date(pin.createdAt) < date(pin.updatedAt) %}
+                <p>Edité {{ pin.updatedAt|ago(locale='fr') }}</p>
+            {% else %}
+                <p>Soumis {{ pin.createdAt|ago(locale='fr') }}</p>
+            {% endif %}
+        </article>        
+    {% endfor %}
+
+{% endblock %}

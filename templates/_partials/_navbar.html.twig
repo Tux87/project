@@ -1,0 +1,28 @@
+<header role="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+					<li>
+						<a href="{{ path('app_home') }}" class="nav-link px-2 text-white">Accueil</a>
+					</li>
+					<li>
+						<a href="{{ path('app_pin_create') }}" class="nav-link px-2 text-white">Nouveau Pin</a>
+					</li>
+				</ul>
+				{# <form class="form-inline my-2 my-lg-0">
+								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+								<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+							</form> #}
+				<div class="text-end">
+					<button type="button" class="btn btn-outline-light me-2">Connexion</button>
+					<button type="button" class="btn btn-warning">Créer un compte</button>
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
